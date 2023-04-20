@@ -1,0 +1,51 @@
+﻿  boss.cpp
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(63,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(69,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(86,28): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(86,63): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(110,16): warning C4244: 'argument': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(114,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(128,19): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(136,24): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(141,17): warning C4244: 'argument': conversion from 'int' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(143,21): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(157,19): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(190,50): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(191,39): warning C4244: 'argument': conversion from 'double' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(195,26): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(208,58): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(208,119): warning C4244: '-=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(209,34): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(209,71): warning C4244: '+=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(214,31): warning C4305: '+=': truncation from 'double' to '_Ty'
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(249,34): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\source\repos\the cat\the cat\boss.cpp(249,75): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+  the cat.vcxproj -> C:\Users\Admin\source\repos\the cat\x64\Debug\the cat.exe
