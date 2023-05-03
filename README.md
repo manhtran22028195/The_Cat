@@ -1,6 +1,6 @@
 <div align="center">
         <h1>
-          TANK 1990
+          THE CAT
         </h1>
-        <img src="The_Cat\data\image\attack.png" style="width: 250px; height: auto;"/>
+        <img src="The_Cat\data\image\game.png" style="width: 250px; height: auto;"/>
       </div>
