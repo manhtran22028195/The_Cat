@@ -1,14 +1,24 @@
 #include "boss.h"
 
 void boss::set_level(int hard_level) {
-	default_HP += hard_level * 10;
-	HP += hard_level * 10;
-	dame += hard_level /2;
+	default_HP = 4000+ hard_level * 10;
+	HP = default_HP;
+	dame = 30+hard_level/2;
+	dame = max(dame, 10);
 }
 
 void boss::loadanimation(SDL_Renderer* render){
-	for (int i = 0; i <70; i++)
+	for (int i = 0; i < 70; i++) {
 		loadtexture(render, animation[i], image[i]);
+		if (i < 69) {
+			SDL_SetTextureColorMod(animation[i], 200, 0, 0);
+			SDL_SetTextureBlendMode(animation[i], SDL_BLENDMODE_MUL);
+		}
+		else {
+			SDL_SetTextureColorMod(animation[i], 0, 0, 0);
+			SDL_SetTextureBlendMode(animation[i], SDL_BLENDMODE_MUL);
+		}
+	}
 }
 void boss::move(SDL_Renderer* render) {
 	get_delta_c_pos();
@@ -25,6 +35,7 @@ void boss::move(SDL_Renderer* render) {
 				attacking3 = 1;
 			}
 		}
+		SDL_SetTextureColorMod(animation[1], 255, 255, 255);
 		if (attacking1) { attack1(render); }
 		else if (attacking2) { attack2(render);}
 		else if (attacking3) { attack3(render); }
@@ -36,6 +47,7 @@ void boss::move(SDL_Renderer* render) {
 	}
 	if (bullet2.size())
 		bullet2_move(render);
+
 	SDL_SetRenderDrawColor(render, 0, 0, 0, 0);
 	SDL_Rect poss = { pos.x + 160,pos.y + 160,pos.w - 300,pos.h - 230 };
 	SDL_RenderDrawRect(render, &poss);
@@ -282,7 +294,7 @@ bool boss::is_right() {
 		return pos.x + pos.w / 2 > get_c_pos.x - (map_w - 1200);
 }
 void boss::draw_hp(SDL_Renderer*render) {
-	SDL_Rect tmp = { pos.x + pos.w / 2-100,pos.y + 50,HP *200 / default_HP,30 };
+	SDL_Rect tmp = { pos.x + pos.w / 2-100,pos.y + 50,max(0,HP *200 / default_HP),30 };
 	SDL_SetRenderDrawColor(render, 255, 0, 0, 0);
 	SDL_RenderFillRect(render,&tmp);
 }
@@ -305,5 +317,6 @@ void boss::reset() {
 	attack2_time = 0;
 	attacking1 = 0;
 	attack1_time = 0;
-	time = 10000;
+	time = 0;
+	pos = { 1300,100,400,400 };
 }

@@ -5,6 +5,8 @@ void menu::init(SDL_Renderer* render) {
 	hoi.loadbutton(render, "data//image//hoicham1.png", "data//image//hoicham2.png");
 	
 	exit.loadbutton(render, "data//image//exit1.png", "data//image//exit2.png");
+
+	record.loadbutton(render, "data//image//record1.png", "data//image//record2.png");
 	
 	off.loadbutton(render, "data//image//off1.png", "data//image//off2.png");
 	

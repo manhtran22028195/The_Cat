@@ -8,7 +8,7 @@ void meo::init(SDL_Renderer*render) {
 	skill_3 = skill(100, skill_3_cooldown);
 }
 void meo::move(SDL_Renderer* render) {
-	if (is_death) { death(render); if (!onground()) { i_fall++; if (i_fall == 13)i_fall = 0; if (pos.y + (i_fall)*gravity < ground) { pos.y += (i_fall)*gravity; } else { pos.y = ground; jumping = 1; i_jump = 0; i_fall = 0; } }}
+	if (HP<=0) { death(render); if (!onground()) { i_fall++; if (i_fall == 13)i_fall = 0; if (pos.y + (i_fall)*gravity < ground) { pos.y += (i_fall)*gravity; } else { pos.y = ground; jumping = 1; i_jump = 0; i_fall = 0; } }}
 	else if ((state[SDL_SCANCODE_C] && skill_3.is_ready()) || attacking3) { attack3(render); if (pos.y + 30 < ground) pos.y += 30;  else { pos.y = ground; jumping = 1; i_jump = 0; i_fall = 0; } }
 	else if ((state[SDL_SCANCODE_X] && skill_2.is_ready()) || attacking2) { attack2(render); }
 	else if (is_take_dame) { takedame(render); if (!onground()) { i_fall++; if (i_fall == 13)i_fall = 0; if (pos.y + (i_fall)*gravity < ground) { pos.y += (i_fall)*gravity; } else { pos.y = ground; jumping = 1; i_jump = 0; i_fall = 0; } }}
@@ -69,9 +69,7 @@ void meo::walk(SDL_Renderer* render) {
 	else
 		SDL_RenderCopyEx(render, textureanimation[i_walk/2], NULL, &pos, 180, NULL, SDL_FLIP_VERTICAL);
 
-	i_walk++;
-	if (i_walk == 16)
-		i_walk = 0;
+	i_walk=++i_walk%16;
 }
 void meo::jump(SDL_Renderer* render) {
 	if (is_right)
@@ -86,10 +84,7 @@ void meo::idle(SDL_Renderer*render) {
 	else
 		SDL_RenderCopyEx(render, textureanimation[i_idle/3+8], NULL, &pos, 180, 0, SDL_FLIP_VERTICAL);
 
-	i_idle++;
-	if (i_idle == 12){
-		i_idle = 0;
-	}
+	i_idle= ++i_idle%12;
 }
 
 void meo::fall(SDL_Renderer*render) {
@@ -204,10 +199,10 @@ void meo::takedame(SDL_Renderer* render) {
 }
 void meo::death(SDL_Renderer* render) {
 	if (is_right)
-		SDL_RenderCopy(render, textureanimation[i_death + 64], NULL, &pos);
+		SDL_RenderCopy(render, textureanimation[i_death/4 + 64], NULL, &pos);
 	else
-		SDL_RenderCopyEx(render, textureanimation[i_death + 64], NULL, &pos, 180, 0, SDL_FLIP_VERTICAL);
-	if(i_death<4)
+		SDL_RenderCopyEx(render, textureanimation[i_death/4 + 64], NULL, &pos, 180, 0, SDL_FLIP_VERTICAL);
+	if(i_death<16)
 	i_death++;
 }
 
@@ -220,7 +215,6 @@ void meo::reset() {
 	i_jump = 0, i_walk = 0, i_idle = 0, i_fall = 0, i_attack3 = 0, i_takedame = 0, i_death = 0, attacking1=0;
 	is_right = 1;
 	jumping = 1;
-	is_death = 0;
 	is_take_dame = 0;
 	time_take_dame = 0;
 	skill_2.set_range({ -13000,0,0,0 });
@@ -245,7 +239,7 @@ void meo::draw_hp(SDL_Renderer* render) {
 	SDL_RenderCopy(render, textureanimation[69],NULL, &tmp);
 	tmp = { 38,10,98,34};
 	SDL_RenderCopy(render, textureanimation[70], NULL, &tmp);
-	tmp = { 38+ int(float(98) * (float(HP) / 100)),19,98-int(float(98) * (float(HP) / 100)),16 };
+	tmp = { 38+ int(float(98) * (float(max(0,HP)) / 100)),19,min(98,98-int(float(98) * (float(HP) / 100))),16 };
 	SDL_SetRenderDrawColor(render, 30, 30, 30, 30);
 	SDL_RenderFillRect(render,&tmp);
 }

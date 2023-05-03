@@ -22,7 +22,6 @@
 	}
 
  	void loadtext(TTF_Font* font, SDL_Texture*& texture,SDL_Renderer *render,string s,SDL_Color color) {
-		
 		SDL_DestroyTexture(texture);
 		SDL_Surface* tmp;
 		tmp=TTF_RenderText_Solid(font, s.c_str(),color);

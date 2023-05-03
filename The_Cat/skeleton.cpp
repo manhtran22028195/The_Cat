@@ -4,8 +4,9 @@ SDL_Texture** skeleton::animation= new SDL_Texture * [65];
 skeleton::~skeleton() {}
 
 void skeleton::set_level(int hard_level) {
-	hp += hard_level*4;
-	dame += hard_level / 5;
+	default_hp = 500+hard_level * 5;
+	hp = default_hp;
+	dame += hard_level / 7;
 }
 
 void skeleton::loadanimation(SDL_Renderer* render) {
@@ -73,11 +74,7 @@ void skeleton::walk(SDL_Renderer* render){
 		SDL_RenderCopyEx(render, animation[i_walk/2 + 52], NULL, &pos, 180, 0, SDL_FLIP_VERTICAL);
 	else
 		SDL_RenderCopy(render, animation[i_walk/2+52], NULL, &pos);
-	i_walk++;
-	if (i_walk == 26)
-	{
-		i_walk = 0;
-	}
+	i_walk=++i_walk%26;
 }
 
 void skeleton::takedame(SDL_Renderer* render) {
@@ -144,14 +141,13 @@ SDL_Rect skeleton::get_range() {
 }
 
 void skeleton::draw_hp(SDL_Renderer* render) {
+	if (hp <= 0)
+		return;
 	SDL_Rect H;
 	if (!is_right())
-		H = { pos.x + pos.w / 2 - 35, pos.y + 25, 1, 3 };
+		H = { pos.x + pos.w / 2 - 35, pos.y + 25,hp * 50 / default_hp, 3 };
 	else
-		H = { pos.x + pos.w / 2 - 10, pos.y + 25, 1, 3 };
+		H = { pos.x + pos.w / 2 - 10, pos.y + 25,hp * 50 / default_hp, 3 };
 	SDL_SetRenderDrawColor(render, 255, 0, 0, 0);
-	for (int i = 0; i < hp; i+=10) {
-		SDL_RenderFillRect(render, &H);
-		H.x += H.w;
-	}
+	SDL_RenderFillRect(render, &H);
 }

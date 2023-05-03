@@ -51,6 +51,8 @@ public:
 
 	int get_hp() { return HP; }
 
+	bool dead() { return (i_death == 16); }
+
 	static int score;
 
 	unsigned int get_time_take_dame() { return time_take_dame; }
@@ -101,9 +103,9 @@ public:
 			bool right{};
 	};
 
-	skill skill_1 = skill (20, skill_1_cooldown);
-	skill skill_2 = skill (20, skill_2_cooldown);
-	skill skill_3 = skill (100, skill_3_cooldown);
+	skill skill_1 = skill (skill_1_dame, skill_1_cooldown);
+	skill skill_2 = skill (skill_2_dame, skill_2_cooldown);
+	skill skill_3 = skill (skill_3_dame, skill_3_cooldown);
 
 private:
 
@@ -127,9 +129,7 @@ private:
 
 	bool jumping = 1;
 
-	bool is_death=0;
-
-	int skill_1_dame = 20;
+	int skill_1_dame = 1000;
 	int skill_1_cooldown = 500;
 
 	int skill_2_dame = 40;

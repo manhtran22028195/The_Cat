@@ -12,6 +12,10 @@ void backgroundd::loadbackground(SDL_Renderer*&render) {
 	loadtexture(render, street_lamp, "data//image//street-lamp.png");
 	loadtexture(render, wagon, "data//image//wagon.png");
 	loadtexture(render, well, "data//image//well.png");
+	loadtexture(render, light, "data//image//light.png");
+	SDL_SetTextureColorMod(light, yellow.r, yellow.g, yellow.b);
+	SDL_SetTextureAlphaMod(light, 5);
+	//SDL_SetTextureBlendMode(light, SDL_BLENDMODE_MUL);
 }
 
 void backgroundd::reset() {
@@ -70,7 +74,26 @@ void backgroundd::backgroundupdate(SDL_Renderer*&render)
 	SDL_RenderCopy(render, street_lamp, NULL, &rect_street_lamp);
 	SDL_RenderCopy(render, well, NULL, &rect_well);
 	SDL_RenderCopy(render, wagon, NULL, &rect_wagon);
-
+	SDL_Rect tmp = rect_light;
+	tmp.x = rect_street_lamp.x - 20;
+	tmp.y = rect_street_lamp.y;
+	//draw light
+	for (int i = 0; i < 3; i++) {
+		tmp.x += 3;
+		while (tmp.w > 0)
+		{
+			yellow.b = (255 + (tmp.x - rect_wagon.x-i*20) / 2);
+			SDL_SetTextureColorMod(light, yellow.r, yellow.g, yellow.b);
+			SDL_RenderCopy(render, light, NULL, &tmp);
+			tmp.y += 1;
+			tmp.h -= 2;
+			tmp.x += 1;
+			tmp.w -= 2;
+		}
+		tmp.w = 50;
+		tmp.h = 50;
+		tmp.y = rect_street_lamp.y+((i+1) * (i+1) - 2*(i+1))*10;
+	}
 	for (int i = 0; i < 65; i++)
 	{
 		rectground_a.x = vel + (i * 2) * 39;

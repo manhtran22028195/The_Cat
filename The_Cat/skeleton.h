@@ -48,6 +48,8 @@ public:
 	
 	SDL_Rect get_c_pos = { 0,0,0,0 };
 private:
+	int default_hp = 500;
+
 	int hp = 500;
 
 	int dame = 10;

@@ -28,6 +28,8 @@ public:
 
 	SDL_Texture* street_lamp;
 	SDL_Rect rect_street_lamp={0,398,70,216};
+	SDL_Texture* light;
+	SDL_Rect rect_light = { 0,0,50,50 };
 	SDL_Texture* wagon;
 	SDL_Rect rect_wagon={0,464,186,150};
 	SDL_Texture* well;
@@ -37,6 +39,7 @@ public:
 	SDL_Rect rectground_a = {0,590,39,117 };
 	SDL_Texture* ground_b;
 	SDL_Rect rectground_b= {39,590,39,117 };
+	SDL_Color yellow = { 251,255,134 };
 
 	void loadbackground(SDL_Renderer*&render);
 	void backgroundupdate(SDL_Renderer*&render);

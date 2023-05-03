@@ -17,6 +17,8 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 #include "timer.h"
+#include <fstream>
+
 using namespace std;
 struct newrect
 {

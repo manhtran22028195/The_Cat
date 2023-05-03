@@ -49,11 +49,7 @@ void bat::fly(SDL_Renderer* render) {
 	else
 		SDL_RenderCopy(render, animation[i_fly + 11], NULL, &pos);
 
-	i_fly++;
-	if (i_fly == 6)
-	{
-		i_fly = 0;
-	}
+	i_fly=++i_fly%6;
 }
 
 bool bat::is_right() {

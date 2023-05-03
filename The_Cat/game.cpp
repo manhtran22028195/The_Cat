@@ -7,6 +7,9 @@
 #include "game_event.h"
 #include "setting.h"
 #include "menu.h"
+#include "ending.h"
+#include "tutorial.h"
+#include "high_socre.h"
 
 int main(int amn, char* arvg[]) {
 	srand(time(NULL));
@@ -21,10 +24,14 @@ int main(int amn, char* arvg[]) {
 	skeleton skeleton;
 	boss boss;
 	menu menu{};
+	ending ending;
+	tutorial tutorial;
+	HighScore highscore;
 	load_icon(window, "data//image//meo.png");
 
 	bat.loadanimation(render);
 	meo.init(render);
+	ending.init(render, font);
 	skeleton.loadanimation(render);
 	boss.loadanimation(render);
 	x.loadbackground(render);
@@ -35,14 +42,12 @@ int main(int amn, char* arvg[]) {
 	Uint32 framestart;
 	int frametime;
 	bool is_running = 1;
-	SDL_Texture* time{};
 	SDL_Texture* pause_texture{};
 	Mix_PlayChannel(1, menu.bgmiusic, 1);
-	enum game_state { in_game, in_pause, in_menu, in_setting };
+	int boss_time = 20000;
+	enum game_state { in_game, in_pause, in_menu, in_setting,in_lose,in_win ,in_toturial,in_highscore};
 	game_state Game_state = in_menu;
 	while (is_running) {
-		
-		int h = 1, y = 1;
 		framestart = timer->getTicks();
 		SDL_GetMouseState(&menu.start.mouse_x,&menu.start.mouse_y);
 		SDL_PollEvent(&e);
@@ -56,8 +61,8 @@ int main(int amn, char* arvg[]) {
 			menu.exit.set_pos(window_w / 2 - 50 - button_w / 2, window_h - 200, button_w, button_h);
 			menu.exit.render(render);
 
-			menu.off.set_pos(window_w / 2 + 50 - button_w / 2, window_h - 200, button_w, button_h);
-			menu.off.render(render);
+			menu.record.set_pos(window_w / 2 + 50 - button_w / 2, window_h - 200, button_w, button_h);
+			menu.record.render(render);
 
 			menu.hoi.set_pos(window_w / 2 - 150 - button_w / 2, window_h - 200, button_w, button_h);
 			menu.hoi.render(render);
@@ -72,12 +77,20 @@ int main(int amn, char* arvg[]) {
 				timer->start();
 				continue;
 			}
+			if (menu.record.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
+				Game_state = in_highscore;
+				continue;
+			}
 			if (menu.setting.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
 				Game_state = in_setting;
 				continue;
 			}
 			if (menu.exit.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
 				return 0;
+			}
+			if (menu.hoi.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT)
+			{
+				Game_state = in_toturial;
 			}
 			break;
 		case in_pause:
@@ -113,9 +126,9 @@ int main(int amn, char* arvg[]) {
 
 			x.backgroundupdate(render);
 
-			if (framestart % 1000 <= 11 && v_skeleton.size() < 20&& timer->getTicks() < 10000)
+			if (framestart % 1000 <= 11 && v_skeleton.size() < 20&& timer->getTicks() < boss_time)
 				spawn(v_bat, bat, v_skeleton, skeleton);
-			if (timer->getTicks()>10000)
+			if (timer->getTicks()>boss_time)
 				boss_impact(boss, meo, render);
 
 			bat_impact(v_bat, meo,render);
@@ -153,6 +166,66 @@ int main(int amn, char* arvg[]) {
 				skeleton.set_level(setting.hard_level());
 			}
 			break;
+		case in_win:
+			SDL_RenderCopy(render, pause_texture, NULL, NULL);
+			ending.winning(render);
+			menu.yes.set_pos(window_w / 2 - 100 - button_w / 2, window_h - 200, button_w, button_h);
+			menu.yes.render(render);
+			menu.no.set_pos(window_w / 2 + 100 - button_w / 2, window_h - 200, button_w, button_h);
+			menu.no.render(render);
+			if (menu.yes.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
+				Game_state = in_game;
+				timer->start();
+				continue;
+			}
+			if (menu.no.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
+				Game_state = in_menu;
+				timer->start();
+				continue;
+			}
+			break;
+		case in_lose:
+			SDL_RenderCopy(render, pause_texture, NULL, NULL);
+			ending.losing(render);
+			menu.yes.set_pos(window_w / 2 - 100 - button_w / 2, window_h - 200, button_w, button_h);
+			menu.yes.render(render);
+			menu.no.set_pos(window_w / 2 + 100 - button_w / 2, window_h - 200, button_w, button_h);
+			menu.no.render(render);
+			if (menu.yes.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
+				Game_state = in_game;
+				timer->start();
+				continue;
+			}
+			if (menu.no.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT) {
+				Game_state = in_menu;
+				timer->start();
+				continue;
+			}
+			break;
+		case in_toturial:
+			x.backgroundupdate(render);
+			meo.idle(render);
+			menu.render_board(render, 600, 500);
+			tutorial.load_doc(render, font, brown);
+			menu.exit.render(render);
+			menu.exit.set_pos(window_w / 2 - button_w / 2, window_h - 160, button_w, button_h);
+			if (menu.exit.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT)
+			{
+				Game_state = in_menu;
+			}
+			break;
+		case in_highscore:
+			x.backgroundupdate(render);
+			meo.idle(render);
+			menu.render_board(render, 600, 500);
+			highscore.printScores(render,font);
+			menu.exit.render(render);
+			menu.exit.set_pos(window_w / 2 - button_w / 2, window_h - 160, button_w, button_h);
+			if (menu.exit.inbut() && e.type == SDL_MOUSEBUTTONUP && e.button.button == SDL_BUTTON_LEFT)
+			{
+				Game_state = in_menu;
+			}
+			break;
 		}
 		while (SDL_PollEvent(&e))
 			if (e.type == SDL_QUIT)
@@ -163,21 +236,29 @@ int main(int amn, char* arvg[]) {
 		
 		frametime =  timer->getTicks() - framestart;
 		
-		if (meo.get_hp() <= 0)
+		if (meo.dead())
 		{
+			pause_screen(render, pause_texture);
+			Game_state = in_lose;
 			meo.reset();
 			boss.reset();
 			v_bat.clear();
 			v_skeleton.clear();
 			x.reset();
-			Game_state=in_menu;
-			timer->start();
-			continue;
+		}
+		if (boss.get_HP() <= 0) {
+			pause_screen(render, pause_texture);
+			Game_state = in_win;
+			meo.reset();
+			boss.reset();
+			v_bat.clear();
+			v_skeleton.clear();
+			x.reset();
+			highscore.addScore({ setting.hard_level() + 95, timer->getTicks()/1000 });
 		}
 	
 		SDL_RenderPresent(render);
 		SDL_RenderClear(render);
-
 		if (frametime < framedelay) {
 			SDL_Delay(framedelay - frametime);
 		}

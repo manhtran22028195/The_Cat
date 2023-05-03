@@ -134,21 +134,26 @@
     <ClCompile Include="bat.cpp" />
     <ClCompile Include="boss.cpp" />
     <ClCompile Include="button.cpp" />
+    <ClCompile Include="ending.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="game_event.cpp" />
+    <ClCompile Include="high_score.cpp" />
     <ClCompile Include="mainfunction.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="meo.cpp" />
     <ClCompile Include="setting.cpp" />
     <ClCompile Include="skeleton.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="background.h" />
     <ClInclude Include="bat.h" />
     <ClInclude Include="boss.h" />
     <ClInclude Include="button.h" />
+    <ClInclude Include="ending.h" />
     <ClInclude Include="game_event.h" />
+    <ClInclude Include="high_socre.h" />
     <ClInclude Include="mainfunction.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="meo.h" />
@@ -156,6 +161,7 @@
     <ClInclude Include="setting.h" />
     <ClInclude Include="skeleton.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="tutorial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
